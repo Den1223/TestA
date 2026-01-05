@@ -1,16 +1,83 @@
 ﻿<Window x:Class="TestA.Views.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TestA.Views"
-        mc:Ignorable="d"
-        Title="MainView" Height="600" Width="900">
-    <Grid>
-        <TextBlock 
-            Text="Code Sandbox"
-            FontSize="24"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top" Margin="252,177,0,0"/>
+        Title="Code Sandbox"
+        Height="700"
+        Width="1100"
+        WindowStartupLocation="CenterScreen"
+        Background ="#1E1E1E">
+
+    <Grid Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- LEFT: CODE EDITOR -->
+        <StackPanel Grid.Column="0" Margin="5">
+            <TextBlock Text="Code"
+                       Foreground="White"
+                       FontSize="16"
+                       Margin="0,0,0,5"/>
+
+            <TextBox Text="{Binding Code}"
+                     AcceptsReturn="True"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     FontFamily="Consolas"
+                     FontSize="14"
+                     Background="#252526"
+                     Foreground="White"
+                     Height="500"/>
+        </StackPanel>
+
+        <!-- RIGHT: CONTROLS -->
+        <StackPanel Grid.Column="1" Margin="10">
+
+            <TextBlock Text="Language"
+                       Foreground="White"
+                       Margin="0,0,0,5"/>
+
+            <ComboBox ItemsSource="{Binding Languages}"
+                      SelectedItem="{Binding SelectedLanguage}"
+                      Height="30"/>
+
+            <TextBlock Text="Time limit (sec)"
+                       Foreground="White"
+                       Margin="0,15,0,5"/>
+
+            <TextBox Text="{Binding TimeLimit}"
+                     Height="30"/>
+
+            <TextBlock Text="Memory limit (MB)"
+                       Foreground="White"
+                       Margin="0,15,0,5"/>
+
+            <TextBox Text="{Binding MemoryLimit}"
+                     Height="30"/>
+
+            <Button Content="Run"
+                    Height="40"
+                    Margin="0,20,0,0"
+                    Background="#007ACC"
+                    Foreground="White"/>
+
+            <TextBlock Text="Status:"
+                       Foreground="White"
+                       Margin="0,20,0,5"/>
+
+            <TextBlock Text="{Binding Status}"
+                       Foreground="LightGreen"/>
+
+            <TextBlock Text="Output"
+                       Foreground="White"
+                       Margin="0,20,0,5"/>
+
+            <TextBox Text="{Binding Output}"
+                     AcceptsReturn="True"
+                     Height="150"
+                     Background="#252526"
+                     Foreground="White"/>
+        </StackPanel>
     </Grid>
 </Window>
