@@ -61,7 +61,8 @@
                     Margin="0,20,0,0"
                     Background="#007ACC"
                     Foreground="White"
-                    Command="{Binding RunCommand}"/>
+                    Command="{Binding RunCommand}"
+                    IsEnabled="{Binding CanRun}"/>
 
             <TextBlock Text="Status:"
                        Foreground="White"
