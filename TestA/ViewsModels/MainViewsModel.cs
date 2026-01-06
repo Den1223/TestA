@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-
 using System.Runtime.CompilerServices;
-
+using TestA.Commands;
+using System.Threading.Tasks;
+using TestA.Services;
 
 namespace TestA.ViewsModels
 {
@@ -17,6 +18,9 @@ namespace TestA.ViewsModels
         private string _output;
         private int _timeLimit;
         private int _meomoryLimit;
+        private bool _isRunning;
+        private readonly HackerEarthService _hackerEarthService = new();
+
 
         public ObservableCollection<string> Languages { get; } =
             new ObservableCollection<string>
@@ -60,13 +64,62 @@ namespace TestA.ViewsModels
             set { _output = value; OnPropertyChanged(); }
         }
 
+        public bool isRunning
+        {
+            get => _isRunning;
+            set
+            {
+                _isRunning = value;
+                OnPropertyChanged();
+                RunCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public RelayCommand RunCommand { get; }
+
         public MainViewsModel()
         {
             SelectedLanguage = "C#";
             TimeLimit = 2;
             MemoryLimit = 64;
             Status = "Idle";
-            Code = "Write your code here /n";
+            Code = "// Write your code here";
+
+            RunCommand = new RelayCommand(
+                execute: RunCode,
+                canExecute: () => !isRunning
+
+                );
+        }
+
+        private async void RunCode()
+        {
+            if (string.IsNullOrWhiteSpace(Code))
+            {
+                Output = "Error: Code is empty.";
+                return;
+            }
+
+            try
+            {
+                var result = await _hackerEarthService.ExecuteCodeAsync(
+                    Code,
+                    SelectedLanguage,
+                    TimeLimit,
+                    MemoryLimit);
+
+                Output = result;
+                Status = "Done";
+            }
+            catch (System.Exception ex)
+            {
+                Output = "Error: " + ex.Message;
+                Status = "Error";
+            }
+            finally
+            {
+                isRunning = false;
+            }
         }
         protected void OnPropertyChanged([CallerMemberName] string? name = null)
         {
