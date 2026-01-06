@@ -16,10 +16,39 @@ namespace TestA.ViewsModels
         private string _selectLanguage;
         private string _status;
         private string _output;
+
         private int _timeLimit;
         private int _meomoryLimit;
+
         private bool _isRunning;
+
         private readonly HackerEarthService _hackerEarthService = new();
+
+        private bool _isBusy;
+        public bool CanRun => !IsBusy;
+
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set
+            {
+                _isBusy = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(CanRun));
+            }
+        }
+
+        private string _statusMessage;
+        public string StatusMessage
+        {
+            get => _statusMessage;
+            set
+            {
+                _statusMessage = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         public ObservableCollection<string> Languages { get; } =

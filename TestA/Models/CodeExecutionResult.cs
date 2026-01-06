@@ -8,5 +8,14 @@ namespace TestA.Models
 {
     class CodeExecutionResult
     {
+        public string status { get; set; }
+        public Result run_status { get; set; }
+
+        public class Result
+        {
+            public string output { get; set; }
+            public string stderr { get; set; }
+            public string status_detail { get; set; }
+        }
     }
 }
